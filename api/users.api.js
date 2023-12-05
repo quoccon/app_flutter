@@ -17,7 +17,9 @@ exports.regU = async (req,res,next) => {
         if(
             req.body.username != null &&
             req.body.email != null &&
-            req.body.password != null
+            req.body.password != null &&
+            req.body.confirmPassword != null &&
+            req.body.password === req.body.confirmPassword
         ){
             if(objU != null){
                 objReturn.msg = "Tài khoản đã tồn tại";
@@ -94,3 +96,20 @@ exports.loginU = async (req, res,next) => {
 function md5(input){
     return require('crypto').createHash('md5').update(input).digest('hex');
 }
+
+
+exports.seachU = async (res,req,next) => {
+    const query = req.body.q;
+
+    try {
+        const U = await myMD.usersModel.find({
+            $or: [
+                {username: {$regex: query,$options:'i'}},
+            ],
+        });
+        res.json(U);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
