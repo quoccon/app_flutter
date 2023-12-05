@@ -7,7 +7,8 @@ const router = express.Router();
  */
 
 const initWebRouter = (app) => {
-    router.post('/reg-api',userControl.regU);
+    // router.post('/reg-api',userControl.Reg);
+    router.post('/reg-api',userControl.regU)
     router.post('/login-api',userControl.loginU);
     router.get('login-api',userControl.loginU);
 
