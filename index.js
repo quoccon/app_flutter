@@ -4,6 +4,7 @@ const cors = require('cors');
 const initWebRouter = require('./router/web');
 const http = require("http");
 const socketIo = require("socket.io");
+const session = require('express-session')
 
 
 
@@ -15,14 +16,18 @@ const io = socketIo(server);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
-// app.use(session({
-//     recret:'duognhuyngtrgang',
-//     resave:true,
-//     saveUninitialized:true
-// }));
+
+app.use(session({
+    secret:'hdbjasfbhvsjdf',
+    resave:false,
+    saveUninitialized:true
+}));
 
 io.on('connection',(socket) => {
     console.log("User connection");
+
+    const userId = socket.request.session.userId;
+    console.log("User ID from session:", userId);
 
     socket.on("disconnect",() => {
         console.log("User disconnect");

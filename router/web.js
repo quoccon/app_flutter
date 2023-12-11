@@ -20,3 +20,4 @@ const initWebRouter = (app) => {
 }
 
 module.exports = initWebRouter;
+ 

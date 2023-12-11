@@ -17,7 +17,7 @@ const messageSchema = new db.mongoose.Schema(
                 },
                 message: {
                     type: String,
-                    required: true
+                    
                 },
                 createdAt: {
                     type: Date,

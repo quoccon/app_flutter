@@ -4,13 +4,16 @@ const myMD = require('../model/message.model');
 exports.createMess = async (req, res, next) => {
     try {
         const { receiverId, message } = req.body;
-        const senderId = req.user._id;
+        const senderId = req.session.userId;
+        console.log(senderId);
 
+        //xem có đoạn chat chưa
         let conversation = await myMD.messageModel.findOne({
             participants: { $all: [senderId, receiverId] }
         });
 
 
+        //chưa có thì tạo mới
         if (!conversation) {
             conversation = new myMD.messageModel({
                 participants: [senderId, receiverId],
@@ -18,13 +21,13 @@ exports.createMess = async (req, res, next) => {
             });
         }
 
-
+        //thêm tin nhắn mới
         conversation.messages.push({ senderId, message });
         const saveMess = await conversation.save();
         console.log(saveMess);
         return res.status(200).json(saveMess);
     } catch (error) {
-        console.log("Loi gui tin nhan");
+        console.log("Loi gui tin nhan");    
         console.log(error);
         return res.status(500).json({ error: "Lỗi" });
     }
