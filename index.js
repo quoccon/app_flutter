@@ -2,10 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const initWebRouter = require('./router/web');
-const session = require('express-session');
+
 
 const app = express();
 const PORT = 8000;
+
+const server = http.createServer(app);
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
