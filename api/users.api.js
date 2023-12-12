@@ -160,16 +160,18 @@ exports.loginU = async (req, res, next) => {
                 const isPassword = user.comparePassword(password);
 
                 if (isPassword) {
-                    objReturn.msg = "Đăng nhập thành công1"
-                    objReturn.status = 0
+                    req.session.userId = user;
+                    console.log(req.session.userId);
+                    objReturn.msg = "Đăng nhập thành công1";
+                    objReturn.status = 0;
                     console.log("Oke");
                 } else {
-                    objReturn.msg = "Mật khẩu không đúng"
-                    objReturn.status = 2
+                    objReturn.msg = "Mật khẩu không đúng";
+                    objReturn.status = 2;
                 }
             }
         } else {
-            objReturn.msg = "Ibvalid method"
+            objReturn.msg = "Ibvalid method";
             objReturn.status = 3;
         }
     } catch (error) {
