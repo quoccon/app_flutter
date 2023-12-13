@@ -182,3 +182,26 @@ exports.loginU = async (req, res, next) => {
     res.json(objReturn);
 }
 
+exports.findUser = async(req, res,next) => {
+    try {
+        if(req.method == "GET"){
+            const {name} = req.query;
+
+            const users = await myMD.usersModel.find({
+                username:{$regex:name , $options:'i'},
+            });
+
+            if(users.length>0){
+                return res.status(200).json(users);
+            }else{
+                return res.status(404).json({error:"Không tìm thấy tài khoản"});
+            }
+        }else{
+            return res.status(400).json({error:"Yêu cầu khong hợp lệ"});
+        }
+    } catch (error) {
+        console.log(error);
+        console.log("Lỗi khi tìm kiếm");
+        return res.status(500).json({ error: "Lỗi" });
+    }
+}

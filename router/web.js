@@ -15,7 +15,7 @@ const initWebRouter = (app) => {
     router.get('/login-api',userControl.loginU);
     router.post('/api-postmessage',messControl.createMess);
     router.get('/api-getmessage',messControl.getAllMess);
-
+    router.get('/searchU',userControl.findUser);
     return app.use('/',router);
 }
 
