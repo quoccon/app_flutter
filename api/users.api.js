@@ -182,3 +182,14 @@ exports.loginU = async (req, res, next) => {
     res.json(objReturn);
 }
 
+exports.getAllU = async(req,res,next) => {
+    try {
+        const allU = await myMD.usersModel.find();
+        console.log("Lấy thành công");
+        res.status(200).json(allU);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:"Lỗi lấy danh sách người dùng"});
+        console.log("Lỗi lấy danh sách");
+    }
+}

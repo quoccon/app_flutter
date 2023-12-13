@@ -35,10 +35,10 @@ exports.createMess = async (req, res, next) => {
 
 exports.getAllMess = async (req, res, next) => {
     try {
-        const {userId} = req.params._id;
+        const {usersId} = req.params;
 
         const conversation = await myMD.messageModel.findOne({
-            participants:{ $all: [req.user._id, userId]}
+            participants:{ $all: [ req.session.userId, usersId]}
         });
 
         if(conversation){
