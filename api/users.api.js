@@ -4,9 +4,6 @@ var objReturn = {
     msg: "",
     infoU: "",
 }
-exports.getAllU = (req, res, next) => {
-
-}
 
 exports.regU = async (req, res, next) => {
     if (req.method == "POST") {
@@ -58,93 +55,6 @@ exports.regU = async (req, res, next) => {
     res.json(objReturn);
 };
 
-// exports.Reg = async (req, res, next) => {
-//     try {
-//         const { username, password, confirmPass } = req.body;
-
-
-//         if(password !== confirmPass){
-//             return res.status(400).json({message:"Mật khẩu không trùng khớp"})
-//         }
-
-//         // Kiểm tra xem tên người dùng đã tồn tại chưa
-//         const existingUser = await myMD.usersModel.findOne({ username });
-//         if (existingUser) {
-//             return res.status(400).json({ message: "Tên người dùng đã tồn tại" });
-//         }
-
-//         // Tạo một người dùng mới
-//         const newUser = new myMD.usersModel({ username, password });
-
-//         // Lưu người dùng vào cơ sở dữ liệu
-//         await newUser.save();
-
-//         res.status(200).json({ message: "Đăng ký thành công" });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Lỗi" });
-//     }
-// };
-
-// exports.loginU = async (req, res,next) => {
-//     try {
-//         if(req.method == 'POST'){
-//             const {username,password} = req.body;
-//             const user = await myMD.usersModel.findOne({username});
-
-//             if(!user){
-//                 objReturn.msg ="User not found";
-//                 objReturn.status = 3;
-//                 return res.json(objReturn);
-//             }
-//             const hashPass = md5(password);
-//             if(user.password === hashPass){
-//                 objReturn.msg = "Đăng nhập thành công!";
-//                 objReturn.status = 0;
-//                 objReturn.infoU = {
-//                     username: user.username,
-//                     // email: user.email,
-//                     // phone: user.phone,
-//                     status: user.status
-//                 };
-//             }else{
-//                 objReturn.msg = "Mật khẩu không đúng"
-//                 objReturn.status = 3;
-//             }
-
-//             res.json(objReturn);
-//         }else{
-//             objReturn.msg = "Yêu cầu không hợp lệ";
-//             objReturn.status = 3;
-//             res.json(objReturn);
-//         }
-//     } catch (error) {
-//         console.log("Đăng nhập lỗi"+error);
-//         objReturn.msg = "Đã sảy ra lỗi";
-//         objReturn.status = 3;
-//         res.json(objReturn);
-//     }
-// };
-
-// function md5(input){
-//     return require('crypto').createHash('md5').update(input).digest('hex');
-// }
-
-
-// exports.seachU = async (res,req,next) => {
-//     const query = req.body.q;
-
-//     try {
-//         const U = await myMD.usersModel.find({
-//             $or: [
-//                 {username: {$regex: query,$options:'i'}},
-//             ],
-//         });
-//         res.json(U);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
 exports.loginU = async (req, res, next) => {
     try {
@@ -182,6 +92,7 @@ exports.loginU = async (req, res, next) => {
     res.json(objReturn);
 }
 
+
 exports.getAllU = async(req,res,next) => {
     try {
         const allU = await myMD.usersModel.find();
@@ -191,5 +102,52 @@ exports.getAllU = async(req,res,next) => {
         console.log(error);
         res.status(500).json({error:"Lỗi lấy danh sách người dùng"});
         console.log("Lỗi lấy danh sách");
+    }
+}
+
+exports.findUser = async(req, res,next) => {
+  try {
+    const {name} = req.body;
+
+    const users = await myMD.usersModel.find({
+        username:{$regex:name, $options:'i'},
+    });
+
+    if(users.length>0) {
+        console.log("Oke");
+        return res.status(200).json(users);
+       
+    }else{
+        console.log("Không tìm thấy người dùng");
+        return res.status(404).json({error:"Không tìm thấy người dùng"});
+       
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Lỗi khi tìm kiếm");
+
+  }
+}
+
+// exports.editU = async(req,res,next) => {
+//     if(req.method === "POST"){
+//         try {
+//             const 
+//         } catch (error) {
+            
+//         }
+//     }
+// }
+
+exports.getUserInfo = async(req,res,next) => {
+    try {
+        if(req.method == "GET"){
+            if(!req.session.userId){
+                objReturn.msg = "Not logged in";
+                objReturn.status = 1;
+            }
+        }
+    } catch (error) {
+        
     }
 }

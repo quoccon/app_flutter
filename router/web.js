@@ -17,7 +17,12 @@ const initWebRouter = (app) => {
 
     //mess
     router.post('/api-postmessage',messControl.createMess);
+
     router.get('/api-getmessage/:usersId',messControl.getAllMess);
+
+
+    router.get('/api-getmessage',messControl.getAllMess);
+    router.get('/searchU',userControl.findUser);
 
     return app.use('/',router);
 }
