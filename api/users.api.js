@@ -145,9 +145,24 @@ exports.getUserInfo = async(req,res,next) => {
             if(!req.session.userId){
                 objReturn.msg = "Not logged in";
                 objReturn.status = 1;
+                return res.json(objReturn);
+            }else{
+                const userId = req.session.userId;
+                const userInfo = await myMD.usersModel.findById(userId);
+
+                if(userId) {
+                    objReturn.msg = "Lấy thông tin thành công";
+                    console.log("Lấy thông tin thành công");
+                    objReturn.status = 0;
+                    objReturn.infoU = userInfo;
+                    return res.json(objReturn);
+                }
             }
         }
     } catch (error) {
-        
+        console.log(error);
+        console.log("Lỗi");
+        // objReturn.msg = "Internal server orror"
+        return res.status(500).json(objReturn);
     }
 }

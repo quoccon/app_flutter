@@ -14,15 +14,14 @@ const initWebRouter = (app) => {
     router.post('/login-api',userControl.loginU);
     router.get('/login-api',userControl.loginU);
     router.get('/getAllU',userControl.getAllU);
-
+    router.get('/searchU',userControl.findUser);
+    router.get('/getUInfo',userControl.getUserInfo);
     //mess
     router.post('/api-postmessage',messControl.createMess);
-
+    router.get('/getUserMess',messControl.getUMess);
     router.get('/api-getmessage/:usersId',messControl.getAllMess);
-
-
     router.get('/api-getmessage',messControl.getAllMess);
-    router.get('/searchU',userControl.findUser);
+
 
     return app.use('/',router);
 }
